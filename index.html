@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vuejs 2 The Complete Guide / Udemy</title>
+</head>
+<body>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+     <div id="exercise">
+        <h3>1) Fill the &ltp> below with your Name and Age - using Interpolation </h3>
+        <p>VueJS is pretty cool - {{name }} ({{age}})</p>
+        <h3>2) Output your age, multiplied by 3</h3>
+        <p> {{ multiply()}} / Using a Function</p>
+        <p>{{age *3}} / Multiplying inside the Interpolation</p>
+        <h3>3) Call a function to output a random float between 0 and 1 (Math.random())</h3>
+        <p>{{randomize()}}</p>
+        <h3>4) Search any image on Google and output it here by binding the "src" attribute</h3>
+        <div>
+            <img style="width:100px;height:100px" v-bind:src="image">
+        </div>
+        <h3>5) Pre-Populate this input with your name (set the "value" attribute)</h3>
+        <div>
+            <input type="text" v-bind:value="name">
+        </div>
+    </div>
+    
+    <script>
+        new Vue ({
+            el: '#exercise',
+            data: {
+                name: "Raphael",
+                age: "32",
+                image: "https://vuejs.org/images/logo.png"
+            },
+            methods: {
+                multiply : function(){
+                    return this.age * 3;
+                },
+                randomize : function(){
+                    return Math.random();
+                }
+            }
+        })
+    </script>
+
+</body>
+</html>
