@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>XP Vue Project</title>
+</head>
+<body>
+	<script src="https://unpkg.com/vue@2.5.9/dist/vue.js"></script>
+
+	<div id="root">
+		<h1>You are {{getLevel}}</h1>
+		<br>
+		<h3>Current XP: {{xp}}</h3>
+		<button @click="xp += 10">Add XP</button>
+		<button @click="xp -= 10">Descrease XP</button>
+	</div>
+	
+	<script>
+		new Vue({
+			el: '#root',
+			data: {
+				xp: 10
+			},
+			computed:{
+				getLevel(){
+					if(this.xp<100){
+						return "a Beginner"
+					} else if (this.xp<200){
+						return "an Intermediate"
+					} else {
+						return "an Advanced"
+					}
+				}
+			}
+		})
+	</script>
+
+</body>
+</html>
