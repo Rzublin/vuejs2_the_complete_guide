@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monster Slayer</title>
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+    <div id="app">
+        <section class="row">
+            <div class="small-6 columns">
+                <h1 class="text-center">YOU</h1>
+                <div class="healthbar">
+                    <div class="healthbar text-center" :style="{width: playerHealthbar + '%'}" style="background-color: green; margin: 0; color: white;">
+                    <!-- Implement player health tracking --> {{playerHealthbar}}
+                    </div>
+                </div>
+            </div>
+            <div class="small-6 columns">
+                <h1 class="text-center">MONSTER</h1>
+                <div class="healthbar">
+                    <div class="healthbar text-center" :style="{width: monsterHealthbar + '%'}" style="background-color: green; margin: 0; color: white;">
+                    <!-- Implement monster health tracking -->{{monsterHealthbar}}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="row controls" v-if="!gameIsRunning">
+            <div class="small-12 columns">
+                <!-- Implement game start / both healthbars go to 100% and log is deleted -->
+                <button id="start-game" @click="newGame()">START NEW GAME</button>
+            </div>
+        </section>
+        <section class="row controls" v-else>
+            <div class="small-12 columns">
+                <button id="attack" @click="attack()">ATTACK</button>
+                <button id="special-attack">SPECIAL ATTACK</button>
+                <button id="heal">HEAL</button>
+                <button id="give-up">GIVE UP</button>
+            </div>
+        </section>
+        <section class="row log">
+            <div class="small-12 columns">
+                <ul>
+                    <li v-for="log in combatLog">
+                        {{log.turnLog}}
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                playerHealthbar: 100,
+                monsterHealthbar: 100,
+                gameIsRunning: false,
+                combatLog: []
+            },
+            methods: {                
+                updatePlayerHealthbar: function(damage){
+                    this.playerHealthbar -= damage;
+                    // if(() <0){
+                    //     this.playerHealthbar = 0;
+                    // }
+                },
+                updateMonsterHealthbar: function(damage){
+                    this.monsterHealthbar -= damage;
+                    // if(()<0){
+                    //     this.monsterHealthbar = 0;
+                    // }
+                },
+                updateLog: function(newLog){
+                    this.combatLog.push(newLog);
+                },
+                newGame: function(){
+                    this.gameIsRunning = true;
+                    this.playerHealthbar = 100;
+                    this.monsterHealthbar = 100;
+                    this.combatLog = [];
+                },
+                gameOver: function(){
+                    if(this.playerHealthbar <= 0) {
+                        this.gameIsRunning = false;
+                        alert("Game is Over. You lost");
+                    } else if (this.monsterHealthbar <= 0){
+                        this.gameIsRunning = false;
+                        alert("Game is Over. You Won. Congratulations!");
+                    }
+                },
+                attack: function(){
+                    var playerDamage = Math.floor(Math.random()*11)+4;
+                    var monsterDamage = Math.floor(Math.random()*11)+7;
+                    var playerLog = {turnLog: "Player caused "+playerDamage+" damage", logActor: "player"};
+                    var monsterLog = {turnLog: "Monster caused "+monsterDamage+" damage", logActor: "monster"};
+                    this.updateMonsterHealthbar(playerDamage);
+                    this.updatePlayerHealthbar(monsterDamage);
+                    this.updateLog(playerLog);
+                    this.updateLog(monsterLog);
+                    this.gameOver();   
+
+                }
+
+            },
+            computed:{
+
+            }            
+        })
+    </script>
+
+</body>
+</html>
