@@ -37,13 +37,13 @@
                 <button id="attack" @click="attack()">ATTACK</button>
                 <button id="special-attack" @click="specialAttack()">SPECIAL ATTACK</button>
                 <button id="heal" @click="heal()">HEAL</button>
-                <button id="give-up">GIVE UP</button>
+                <button id="give-up" @click="giveUp()">GIVE UP</button>
             </div>
         </section>
-        <section class="row log">
+        <section class="row log" v-if="combatLog.length > 0">
             <div class="small-12 columns">
                 <ul>
-                    <li v-for="log in combatLog">
+                    <li v-for="log in combatLog" :class="{'player-turn': log.isPlayer, 'monster-turn': !log.isPlayer}">
                         {{log.turnLog}}
                     </li>
                 </ul>
@@ -61,20 +61,14 @@
                 combatLog: []
             },
             methods: {                
-                updatePlayerHealthbar: function(damage){
-                    this.playerHealthbar -= damage;
-                    // if(() <0){
-                    //     this.playerHealthbar = 0;
-                    // }
+                updatePlayerHealthbar: function(damage){                    
+                    this.playerHealthbar -= damage
                 },
-                updateMonsterHealthbar: function(damage){
-                    this.monsterHealthbar -= damage;
-                    // if(()<0){
-                    //     this.monsterHealthbar = 0;
-                    // }
+                updateMonsterHealthbar: function(damage){                    
+                    this.monsterHealthbar -= damage
                 },
                 updateLog: function(newLog){
-                    this.combatLog.push(newLog);
+                    this.combatLog.unshift(newLog);
                 },
                 newGame: function(){
                     this.gameIsRunning = true;
@@ -111,17 +105,17 @@
                     var monsterDamage = Math.floor(Math.random()*11)+7;
                     this.updateMonsterHealthbar(playerDamage);
                     this.updatePlayerHealthbar(monsterDamage);
-                    var playerLog = {turnLog: "Player caused "+playerDamage+" damage", logActor: "player"};
-                    var monsterLog = {turnLog: "Monster caused "+monsterDamage+" damage", logActor: "monster"};          
+                    var playerLog = {turnLog: "Player caused "+playerDamage+" damage", isPlayer: true};
+                    var monsterLog = {turnLog: "Monster caused "+monsterDamage+" damage", isPlayer: false};          
                     this.updateLog(playerLog);
                     this.updateLog(monsterLog);
                     this.checkEndgame();   
+                },
+                giveUp: function(){
+                    this.gameIsRunning = false;
                 }
 
-            },
-            computed:{
-
-            }            
+            },           
         })
     </script>
 
