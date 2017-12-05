@@ -35,8 +35,8 @@
         <section class="row controls" v-else>
             <div class="small-12 columns">
                 <button id="attack" @click="attack()">ATTACK</button>
-                <button id="special-attack">SPECIAL ATTACK</button>
-                <button id="heal">HEAL</button>
+                <button id="special-attack" @click="specialAttack()">SPECIAL ATTACK</button>
+                <button id="heal" @click="heal()">HEAL</button>
                 <button id="give-up">GIVE UP</button>
             </div>
         </section>
@@ -82,7 +82,7 @@
                     this.monsterHealthbar = 100;
                     this.combatLog = [];
                 },
-                gameOver: function(){
+                checkEndgame: function(){
                     if(this.playerHealthbar <= 0) {
                         this.gameIsRunning = false;
                         alert("Game is Over. You lost");
@@ -93,15 +93,29 @@
                 },
                 attack: function(){
                     var playerDamage = Math.floor(Math.random()*11)+4;
+                    this.resolveCombat(playerDamage);  
+                }, 
+                specialAttack: function(){
+                    var playerDamage = Math.floor(Math.random()*11)+15;
+                    this.resolveCombat(playerDamage); 
+                },
+                heal: function(){
+                    if(this.playerHealthbar <=90){
+                        this.playerHealthbar += 10;
+                    } else {
+                        this.playerHealthbar = 100;
+                    }
+                    this.resolveCombat(0);                    
+                },
+                resolveCombat: function(playerDamage){
                     var monsterDamage = Math.floor(Math.random()*11)+7;
-                    var playerLog = {turnLog: "Player caused "+playerDamage+" damage", logActor: "player"};
-                    var monsterLog = {turnLog: "Monster caused "+monsterDamage+" damage", logActor: "monster"};
                     this.updateMonsterHealthbar(playerDamage);
                     this.updatePlayerHealthbar(monsterDamage);
+                    var playerLog = {turnLog: "Player caused "+playerDamage+" damage", logActor: "player"};
+                    var monsterLog = {turnLog: "Monster caused "+monsterDamage+" damage", logActor: "monster"};          
                     this.updateLog(playerLog);
                     this.updateLog(monsterLog);
-                    this.gameOver();   
-
+                    this.checkEndgame();   
                 }
 
             },
