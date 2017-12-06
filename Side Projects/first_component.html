@@ -9,18 +9,22 @@
 	<script src="https://unpkg.com/vue@2.5.9/dist/vue.js"></script>
 
 	<div id="app">
-		
+		<rz-status></rz-status>
+		<hr>
+		<rz-status></rz-status>
 	</div>
 
 	<script>
 
-		new Vue({
-			el:'#app',
-			data:{
-				status: 'Critical'
+		Vue.component( 'rz-status', {
+			data: function(){
+				return {status: 'Critical (Shutdown Required)'}
 			},
 			template: '<p>System Status: {{status}}</p>'
+		});
 
+		new Vue({
+			el:'#app',
 		});
 	</script>
 	
