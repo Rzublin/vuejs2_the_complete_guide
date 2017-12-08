@@ -14,9 +14,9 @@
 </template>
 
 <script>
-	import Header from './Header.vue';
-	import ServerList from './ServerList.vue';
-	import Footer from './Footer.vue';
+	import Header from './components/Header.vue';
+	import ServerList from './components/ServerList.vue';
+	import Footer from './components/Footer.vue';
 	export default  {
 		components : {
 			'app-server-list': ServerList,
